@@ -114,10 +114,11 @@ module Axlsx
     def to_stream(confirm_valid=false)
       return false unless !confirm_valid || self.validate.empty?
       Relationship.clear_cached_instances
-      zip = write_parts(Zip::OutputStream.new("streamed", true))
-      stream = zip.close_buffer
-      stream.rewind
-      stream
+      io_stream = ::StringIO.new('')
+      zip = write_parts(Zip::OutputStream.new(io_stream, true))
+      zip.close_buffer
+      io_stream.rewind
+      io_stream
     end
 
     # Encrypt the package into a CFB using the password provided
