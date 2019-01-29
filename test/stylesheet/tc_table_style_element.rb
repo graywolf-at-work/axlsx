@@ -1,6 +1,6 @@
 require 'tc_helper.rb'
 
-class TestTableStyleElement < Test::Unit::TestCase
+class TestTableStyleElement < Minitest::Unit::TestCase
 
   def setup
     @item = Axlsx::TableStyleElement.new
@@ -10,9 +10,9 @@ class TestTableStyleElement < Test::Unit::TestCase
   end
 
   def test_initialiation
-    assert_equal(@item.type, nil)
-    assert_equal(@item.size, nil)
-    assert_equal(@item.dxfId, nil)
+    assert_nil @item.type
+    assert_nil @item.size
+    assert_nil @item.dxfId
     options = { :type => :headerRow, :size => 10, :dxfId => 1 }
 
     tse = Axlsx::TableStyleElement.new options
@@ -20,19 +20,19 @@ class TestTableStyleElement < Test::Unit::TestCase
   end
 
   def test_type
-    assert_raise(ArgumentError) { @item.type = -1.1 }
+    assert_raises(ArgumentError) { @item.type = -1.1 }
     assert_nothing_raised { @item.type = :blankRow }
     assert_equal(@item.type, :blankRow)
   end
 
   def test_size
-    assert_raise(ArgumentError) { @item.size = -1.1 }
+    assert_raises(ArgumentError) { @item.size = -1.1 }
     assert_nothing_raised { @item.size = 2 }
     assert_equal(@item.size, 2)
   end
 
   def test_dxfId
-    assert_raise(ArgumentError) { @item.dxfId = -1.1 }
+    assert_raises(ArgumentError) { @item.dxfId = -1.1 }
     assert_nothing_raised { @item.dxfId = 7 }
     assert_equal(@item.dxfId, 7)
   end

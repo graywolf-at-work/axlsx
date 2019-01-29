@@ -1,6 +1,6 @@
  require 'tc_helper.rb'
 
- class TestNumDataSource < Test::Unit::TestCase
+ class TestNumDataSource < Minitest::Unit::TestCase
 
   def setup
     @data_source = Axlsx::NumDataSource.new :data => ["1", "2", "3"]

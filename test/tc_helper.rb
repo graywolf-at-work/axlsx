@@ -5,6 +5,12 @@ SimpleCov.start do
   add_filter "/vendor/"
 end
 
-require 'test/unit'
+require 'minitest/autorun'
+module Minitest::Assertions 
+  def assert_nothing_raised(*)
+    yield
+  end
+end
+
 require "timecop"
 require "axlsx.rb"

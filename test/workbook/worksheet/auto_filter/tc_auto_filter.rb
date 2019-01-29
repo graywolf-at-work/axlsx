@@ -1,6 +1,6 @@
 require 'tc_helper.rb'
 
-class TestAutoFilter < Test::Unit::TestCase
+class TestAutoFilter < Minitest::Unit::TestCase
 
   def setup
     ws = Axlsx::Package.new.workbook.add_worksheet
@@ -31,7 +31,7 @@ class TestAutoFilter < Test::Unit::TestCase
   end
 
   def test_applya
-    assert_equal nil, @auto_filter.worksheet.rows.last.hidden
+    assert_nil @auto_filter.worksheet.rows.last.hidden
     @auto_filter.apply
     assert_equal true, @auto_filter.worksheet.rows.last.hidden
   end

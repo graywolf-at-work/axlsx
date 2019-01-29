@@ -1,6 +1,6 @@
 require 'tc_helper.rb'
 
-class TestGradientFill < Test::Unit::TestCase
+class TestGradientFill < Minitest::Unit::TestCase
 
   def setup
     @item = Axlsx::GradientFill.new
@@ -12,46 +12,46 @@ class TestGradientFill < Test::Unit::TestCase
 
   def test_initialiation
     assert_equal(@item.type, :linear)
-    assert_equal(@item.degree, nil)
-    assert_equal(@item.left, nil)
-    assert_equal(@item.right, nil)
-    assert_equal(@item.top, nil)
-    assert_equal(@item.bottom, nil)
+    assert_nil @item.degree
+    assert_nil @item.left
+    assert_nil @item.right
+    assert_nil @item.top
+    assert_nil @item.bottom
     assert(@item.stop.is_a?(Axlsx::SimpleTypedList))
   end
 
   def test_type
-    assert_raise(ArgumentError) { @item.type = 7 }
+    assert_raises(ArgumentError) { @item.type = 7 }
     assert_nothing_raised { @item.type = :path }
     assert_equal(@item.type, :path)
   end
 
   def test_degree
-    assert_raise(ArgumentError) { @item.degree = -7 }
+    assert_raises(ArgumentError) { @item.degree = -7 }
     assert_nothing_raised { @item.degree = 5.0 }
     assert_equal(@item.degree, 5.0)
   end
 
   def test_left
-    assert_raise(ArgumentError) { @item.left = -1.1 }
+    assert_raises(ArgumentError) { @item.left = -1.1 }
     assert_nothing_raised { @item.left = 1.0 }
     assert_equal(@item.left, 1.0)
   end
 
   def test_right
-    assert_raise(ArgumentError) { @item.right = -1.1 }
+    assert_raises(ArgumentError) { @item.right = -1.1 }
     assert_nothing_raised { @item.right = 0.5 }
     assert_equal(@item.right, 0.5)
   end
 
   def test_top
-    assert_raise(ArgumentError) { @item.top = -1.1 }
+    assert_raises(ArgumentError) { @item.top = -1.1 }
     assert_nothing_raised { @item.top = 1.0 }
     assert_equal(@item.top, 1.0)
   end
 
   def test_bottom
-    assert_raise(ArgumentError) { @item.bottom = -1.1 }
+    assert_raises(ArgumentError) { @item.bottom = -1.1 }
     assert_nothing_raised { @item.bottom = 0.0 }
     assert_equal(@item.bottom, 0.0)
   end

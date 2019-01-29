@@ -1,6 +1,6 @@
 require 'tc_helper.rb'
 
-class TestWorksheet < Test::Unit::TestCase
+class TestWorksheet < Minitest::Unit::TestCase
   def setup
     @p = Axlsx::Package.new
     @wb = @p.workbook
@@ -76,7 +76,7 @@ class TestWorksheet < Test::Unit::TestCase
   def test_no_autowidth
     @ws.workbook.use_autowidth = false
     @ws.add_row [1,2,3,4]
-    assert_equal(@ws.column_info[0].width, nil)
+    assert_nil @ws.column_info[0].width
   end
 
   def test_initialization_options
@@ -105,13 +105,13 @@ class TestWorksheet < Test::Unit::TestCase
 
 
   def test_use_gridlines
-    assert_raise(ArgumentError) { @ws.show_gridlines = -1.1 }
+    assert_raises(ArgumentError) { @ws.show_gridlines = -1.1 }
     assert_nothing_raised { @ws.show_gridlines = false }
     assert_equal(@ws.show_gridlines, false)
   end
 
   def test_selected
-    assert_raise(ArgumentError) { @ws.selected = -1.1 }
+    assert_raises(ArgumentError) { @ws.selected = -1.1 }
     assert_nothing_raised { @ws.selected = true }
     assert_equal(@ws.selected, true)
   end
@@ -399,7 +399,7 @@ class TestWorksheet < Test::Unit::TestCase
     cell_with_newline = "foo\n\r\nbar"
     @ws.add_row [cell_with_newline]
     assert_equal("foo\n\r\nbar", @ws.rows.last.cells.last.value)
-    assert_not_nil(@ws.to_xml_string.index("foo\n\r\nbar"))
+    refute_nil(@ws.to_xml_string.index("foo\n\r\nbar"))
   end
   # Make sure the XML for all optional elements (like pageMargins, autoFilter, ...)
   # is generated in correct order.
@@ -434,7 +434,7 @@ class TestWorksheet < Test::Unit::TestCase
 
 
   def test_name_unique
-    assert_raise(ArgumentError, "worksheet name must be unique") { n = @ws.name; @ws.workbook.add_worksheet(:name=> n) }
+    assert_raises(ArgumentError, "worksheet name must be unique") { n = @ws.name; @ws.workbook.add_worksheet(:name=> n) }
   end
 
   def test_name_unique_only_checks_other_worksheet_names
@@ -443,7 +443,7 @@ class TestWorksheet < Test::Unit::TestCase
   end
 
   def test_name_size
-    assert_raise(ArgumentError, "name too long!") { @ws.name = Array.new(32, "A").join() }
+    assert_raises(ArgumentError, "name too long!") { @ws.name = Array.new(32, "A").join() }
     assert_nothing_raised { @ws.name = Array.new(31, "A").join() }
   end
 
@@ -463,8 +463,8 @@ class TestWorksheet < Test::Unit::TestCase
     @ws.add_row ["chasing windmills", "penut"]
     @ws.column_widths nil, 0.5
     assert_equal(@ws.column_info[1].width, 0.5, 'eat my width')
-    assert_raise(ArgumentError, 'only accept unsigned ints') { @ws.column_widths 2, 7, -1 }
-    assert_raise(ArgumentError, 'only accept Integer, Float or Fixnum') { @ws.column_widths 2, 7, "-1" }
+    assert_raises(ArgumentError, 'only accept unsigned ints') { @ws.column_widths 2, 7, -1 }
+    assert_raises(ArgumentError, 'only accept Integer, Float or Fixnum') { @ws.column_widths 2, 7, "-1" }
   end
 
   def test_protect_range
@@ -501,7 +501,7 @@ class TestWorksheet < Test::Unit::TestCase
 
   def test_auto_filter
     assert(@ws.auto_filter.range.nil?)
-    assert_raise(ArgumentError) { @ws.auto_filter = 123 }
+    assert_raises(ArgumentError) { @ws.auto_filter = 123 }
     @ws.auto_filter.range = "A1:D9"
     assert_equal(@ws.auto_filter.range, "A1:D9")
   end
@@ -531,7 +531,7 @@ class TestWorksheet < Test::Unit::TestCase
 
   def test_worksheet_does_not_get_added_to_workbook_on_initialize_failure
     assert_equal(1, @wb.worksheets.size)
-    assert_raise(ArgumentError) { @wb.add_worksheet(:name => 'Sheet1') }
+    assert_raises(ArgumentError) { @wb.add_worksheet(:name => 'Sheet1') }
     assert_equal(1, @wb.worksheets.size)
   end
 
